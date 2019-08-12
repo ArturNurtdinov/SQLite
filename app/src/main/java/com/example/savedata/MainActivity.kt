@@ -43,11 +43,17 @@ class MainActivity : AppCompatActivity() {
                 selection,
                 selectionArgs
         )
+        //deleting with our selection (deletes all that we created)
+        val deleteRows = dbRead.delete(
+                FeedReaderContract.FeedEntry.TABLE_NAME,
+                selection,
+                selectionArgs
+        )
         with(cursor) {
             while (moveToNext()) {
                 val title = getString(getColumnIndex(FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE))
                 val subtitle = getString(getColumnIndex(FeedReaderContract.FeedEntry.COLUMN_NAME_SUBTITLE))
-                text_view.text = "$title $subtitle"
+                text_view.text = "$title $subtitle $deleteRows"
             }
         }
 
@@ -57,4 +63,5 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         dbHelper.close()
         super.onDestroy()
-    }
+    }
+}
